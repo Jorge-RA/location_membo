@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:membo_test_app/providers/location_provider.dart';
+import 'package:membo_test_app/providers/providers.dart';
 import 'package:membo_test_app/screens/screens.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +13,10 @@ class AppState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
+    return MultiProvider(
+      providers: [
       ChangeNotifierProvider(create: (context) => LocationProvider()),
+      ChangeNotifierProvider(create: (context) => NotificationProvider()),
     ],
     child: const MyApp(),
     );

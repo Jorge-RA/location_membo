@@ -12,6 +12,7 @@ class LocationProvider extends ChangeNotifier{
   double? speed = 0.0;
   bool _enableService = false;
   int _reportFrecuency = 10; //Inicialmente es un reporte cada 10milisegundos
+  var listernerStream;
 
   int get reportFrecuency => _reportFrecuency;
 
@@ -28,13 +29,22 @@ class LocationProvider extends ChangeNotifier{
 
   set enableService(bool enableService) {
     _enableService = enableService;
-    // ignore: unnecessary_this
+     notifyListeners(); //Se le notifica y se le envía al StreamBuilder el Stream para que escuche los datos
+
     location.enableBackgroundMode(enable: enableService); //Si los servicios están iniciados, que también se inicie el BackgroundMode
-    notifyListeners(); //Se le notifica y se le envía al StreamBuilder el Stream para que escuche los datos
+    if(_enableService){
+        listernerStream = location.onLocationChanged.listen(
+          (event) {
+            print(event);//Permitirá ver por medio de sockects la localizacion y velocidad reportada por la app
+          }
+        );
+    }else{
+      listernerStream.cancel(); //Cancelo el listener cuando se apaguen los servicios
+    }
+   
   }
 
   Future<bool> checkStatusService() async{
-
     _serviceEnabled = await location.serviceEnabled(); //Saber el estado del GPS ON/OFF
     if(!_serviceEnabled){
       _serviceEnabled = await location.requestService();//Para habilitar el GPS del dispositivo 

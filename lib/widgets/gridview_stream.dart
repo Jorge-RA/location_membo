@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:location/location.dart';
 import 'package:membo_test_app/providers/location_provider.dart';
+import 'package:membo_test_app/providers/notifications_provider.dart';
 import 'package:membo_test_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -15,24 +15,17 @@ class GridViewStream extends StatefulWidget {
 }
 
 class _GridViewStreamState extends State<GridViewStream> with WidgetsBindingObserver{
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();//Instancia general de las notificaciones
-  NotificationDetails notificationDetails =  const NotificationDetails(
-    android: AndroidNotificationDetails(
-      'Channel ID', 
-      'Channel Name',
-      channelDescription: 'Channel description',
-      importance: Importance.max,
-      priority: Priority.high,
-      fullScreenIntent: true,
-      subText: 'Background MEMBO',
-      styleInformation: BigTextStyleInformation('')
-    ),
-  );
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);//Agregamos esto para escuchar el estado de la aplicacion
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<NotificationProvider>(context).initialize(); //Inicializo las notificaciones con sus configuraciones (Para Android en este caso)
   }
   
   @override
@@ -43,31 +36,16 @@ class _GridViewStreamState extends State<GridViewStream> with WidgetsBindingObse
 
 
   @override
-  void didChangeDependencies() async{
-    super.didChangeDependencies();
-    const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const InitializationSettings initializationSettings = InitializationSettings(
-      android: androidInitializationSettings,
-      iOS: null,
-      linux: null,
-      macOS: null,
-    );
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: null,
-    );
-  }
-
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if(state == AppLifecycleState.paused){ //Si la aplicacion está en segundo plano, envíe la notificación
       final locationProvider = Provider.of<LocationProvider>(context, listen: false);
-      flutterLocalNotificationsPlugin.show(
+      final notificationProvider = Provider.of<NotificationProvider>(context, listen: false);
+      notificationProvider.flutterLocalNotificationsPlugin.show(
         0, 
         'ÚLTIMOS DATOS EN PRIMER PLANO', 
         '''Latitud: ${locationProvider.latitude!.toStringAsFixed(7)}°\nLongitud: ${locationProvider.longitude!.toStringAsFixed(7)}°\nVelocidad: ${locationProvider.speed!.toStringAsFixed(4)} Km/h''', 
-        notificationDetails,
+        notificationProvider.notificationDetails,
       );
     }
   }

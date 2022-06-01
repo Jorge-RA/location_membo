@@ -10,27 +10,31 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
     backgroundColor: Colors.black,
-    body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'MEMBO',
-              style: GoogleFonts.rajdhani(
-                fontSize: 60,
-                fontWeight: FontWeight.w800,
-                color: const Color.fromARGB(255, 255, 30, 14),
-              ),
-            ),
-            const GridViewStream(),
-            const CustomSlider(),
-            Text('Desing by Jorge Ramos',
-              style: GoogleFonts.rajdhani(
-                  fontSize: 10,
-                  color: Colors.white,
+    body: SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              Text(
+                'MEMBO',
+                style: GoogleFonts.rajdhani(
+                  fontSize: 60,
+                  fontWeight: FontWeight.w800,
+                  color: const Color.fromARGB(255, 255, 30, 14),
                 ),
-            ),
-          ],
-         ),
+              ),
+              const GridViewStream(),
+              const CustomSlider(),
+              Text('Desing by Jorge Ramos',
+                style: GoogleFonts.rajdhani(
+                    fontSize: 10,
+                    color: Colors.white,
+                  ),
+              ),
+            ],
+           ),
+    ),
     );
   }
 }
