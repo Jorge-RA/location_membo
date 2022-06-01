@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 
 void main() {
-  runApp(AppState());
+  runApp(const AppState());
 }
 
 class AppState extends StatelessWidget {
@@ -16,13 +16,15 @@ class AppState extends StatelessWidget {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => LocationProvider()),
     ],
-    child: MyApp(),
+    child: const MyApp(),
     );
   }
 }
 
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
       title: 'Membo location',
       initialRoute: 'home',
       routes: {
-        'home':(context) => HomeScreen(),
+        'home':(context) => const HomeScreen(),
       },
     );
   }

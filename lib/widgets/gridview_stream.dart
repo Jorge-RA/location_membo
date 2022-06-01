@@ -15,7 +15,7 @@ class GridViewStream extends StatefulWidget {
 }
 
 class _GridViewStreamState extends State<GridViewStream> with WidgetsBindingObserver{
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();//Instancia general de las notificaciones
   NotificationDetails notificationDetails =  const NotificationDetails(
     android: AndroidNotificationDetails(
       'Channel ID', 
@@ -24,7 +24,7 @@ class _GridViewStreamState extends State<GridViewStream> with WidgetsBindingObse
       importance: Importance.max,
       priority: Priority.high,
       fullScreenIntent: true,
-      subText: 'Background',
+      subText: 'Background MEMBO',
       styleInformation: BigTextStyleInformation('')
     ),
   );
@@ -60,16 +60,13 @@ class _GridViewStreamState extends State<GridViewStream> with WidgetsBindingObse
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('STATE: $state');
     super.didChangeAppLifecycleState(state);
-    if(state == AppLifecycleState.paused){
+    if(state == AppLifecycleState.paused){ //Si la aplicacion está en segundo plano, envíe la notificación
       final locationProvider = Provider.of<LocationProvider>(context, listen: false);
       flutterLocalNotificationsPlugin.show(
         0, 
-        'MEMBO LOCATION', 
-        '''Latitud: ${locationProvider.latitude!.toStringAsFixed(7)}°
-Longitud: ${locationProvider.longitude!.toStringAsFixed(7)}°
-Velocidad: ${locationProvider.speed!.toStringAsFixed(4)} Km/h''', 
+        'ÚLTIMOS DATOS EN PRIMER PLANO', 
+        '''Latitud: ${locationProvider.latitude!.toStringAsFixed(7)}°\nLongitud: ${locationProvider.longitude!.toStringAsFixed(7)}°\nVelocidad: ${locationProvider.speed!.toStringAsFixed(4)} Km/h''', 
         notificationDetails,
       );
     }
@@ -83,7 +80,6 @@ Velocidad: ${locationProvider.speed!.toStringAsFixed(4)} Km/h''',
     return StreamBuilder<LocationData>(
       stream: locationProvider.enableService ? locationProvider.location.onLocationChanged : null,
       builder: (context, snapshot) {
-        print('SNAPSHOT: ${snapshot.data}');
         if (snapshot.hasData || snapshot.data == null) {//Siempre entrará
           if(snapshot.hasData) locationProvider.getLocation(); //Traigo la nueva ubicacion siempre que el listen del Stream envíe un nuevo dato, esos datos los centralizo en mi Provider
           List<Widget> myObjects = [
@@ -103,7 +99,7 @@ Velocidad: ${locationProvider.speed!.toStringAsFixed(4)} Km/h''',
               crossAxisSpacing: 10,
             ),
             itemBuilder: (_, index) {
-              return myObjects[index];
+              return myObjects[index];//Renderiza los objetos de la lista con los nuevos valores
             },
           );
         }

@@ -14,7 +14,7 @@ class _CustomSliderState extends State<CustomSlider> {
   double _value = 10;
   @override
   Widget build(BuildContext context) {
-    final _locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
     return Column(
       children: [
         Text(
@@ -38,7 +38,7 @@ class _CustomSliderState extends State<CustomSlider> {
             setState(() {});
           },
           onChangeEnd: (value)async{
-            _locationProvider.reportFrecuency = _value.toInt();
+            locationProvider.reportFrecuency = _value.toInt();
             
           },
           

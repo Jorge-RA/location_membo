@@ -17,8 +17,7 @@ class _EnableServiceButtonState extends State<EnableServiceButton> {
 
   @override
   Widget build(BuildContext context) {
-    final _locationProvider =
-        Provider.of<LocationProvider>(context, listen: false);
+    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor:
@@ -31,9 +30,9 @@ class _EnableServiceButtonState extends State<EnableServiceButton> {
         ),
       ),
       onPressed: () async {
-        if (await _locationProvider.checkStatusService()) {
+        if (await locationProvider.checkStatusService()) {
           enable = !enable;
-          _locationProvider.enableService = enable;
+          locationProvider.enableService = enable;
           setState(() {});
         }
       },

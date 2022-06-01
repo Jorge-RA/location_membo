@@ -17,7 +17,6 @@ class LocationProvider extends ChangeNotifier{
 
   set reportFrecuency(int reportFrecuency) {
     _reportFrecuency = reportFrecuency;
-    print('Setting frecuency $_reportFrecuency');
     //Seteo la frecuencia de los reportes dependiendo al valor del Slider
     location.changeSettings(
       interval: _reportFrecuency, //Enviar datos al Stream cada x milisegs
@@ -37,27 +36,23 @@ class LocationProvider extends ChangeNotifier{
   Future<bool> checkStatusService() async{
 
     _serviceEnabled = await location.serviceEnabled(); //Saber el estado del GPS ON/OFF
-    print('Service Enable: ${_serviceEnabled}');   
     if(!_serviceEnabled){
-      _serviceEnabled = await location.requestService();//Para habilitar el GPS del dispositivo
-    print('Service Enable2: ${_serviceEnabled}');   
+      _serviceEnabled = await location.requestService();//Para habilitar el GPS del dispositivo 
       if (!_serviceEnabled) {
-        print('No se habilitó el servicio GPS');
-      return false;
+        //No se habilitó el servicio GPS
+        return false;
       }
-        print('Se habilitó el servicio GPS');
+        //Se habilitó el servicio GPS'
     }
 
     _currentPermissionLocation = await location.hasPermission(); //Para saber el estado actual de los permisos de la app para acceder a tu ubicacion
-    print('CurrentPermission: ${_currentPermissionLocation}');  
     if(_currentPermissionLocation == PermissionStatus.denied){
         _currentPermissionLocation = await location.requestPermission();// PEDIR permisos para que la app para acceda a tu ubicacion
-      print('CurrentPermission2: ${_currentPermissionLocation}');  
       if(_currentPermissionLocation != PermissionStatus.granted){
-          print('No se otorgaron los permisos');
+          //No se otorgaron los permisos
           return false;
       }
-      print('Todos los permisos fueron otorgados');
+      //Todos los permisos fueron otorgados
       return true;
     }
     return true;
