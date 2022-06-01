@@ -34,7 +34,6 @@ class _CustomSliderState extends State<CustomSlider> {
           inactiveColor: const Color.fromARGB(255, 155, 94, 89),
           onChanged: (value) {
             if(value < 10) value = 10;
-            print(value);
             _value = value;
             setState(() {});
           },
