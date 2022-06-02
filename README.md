@@ -14,6 +14,8 @@ Cuando se apagan los servicios, el modo *'BackgroundMode'* también es deshabili
 
 Una vez otorgados los permisos, la latitud, longuitud y velocidad se presentarán al usuario. Éste mismo, por medio de un slider podrá determinar la frecuencia con la que desea que se actualicen las mediciones, teniendo un rango desde 10 milisegundos hasta 10K milisegundos (10 segs).
 
+Al cerrar la aplicación, se guardarán los datos en el *SharedPreferences* de la app, para qué, al momento de abrir de nuevo el aplicativo, se muestren los últimos datos registrados en Foreground o en Background.
+
 En el archivo *Location_provider, linea 38*, se encuentra un listener, el cual es el que siempre está reportando los datos, ya sea cuando la app esté en modo Background o Foreground. Se puede implemetar algún socket o la lógica de su preferencia.
 
 Links de interes:
@@ -26,3 +28,4 @@ Links de interes:
 - location: ^4.2.0
 - google_fonts: ^3.0.1
 - flutter_local_notifications: ^9.5.3+1
+- shared_preferences: ^2.0.15

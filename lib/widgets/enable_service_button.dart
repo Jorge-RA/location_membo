@@ -23,11 +23,26 @@ class _EnableServiceButtonState extends State<EnableServiceButton> {
         backgroundColor:
             MaterialStateProperty.all(enable ? Colors.red : Colors.green),
       ),
-      child: Text(
-        enable ? 'Apagar servicios' : 'Iniciar servicios',
-        style: GoogleFonts.russoOne(
-          letterSpacing: 1,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            enable ? 'Apagar servicios' : 'Iniciar servicios',
+            style: GoogleFonts.russoOne(
+              letterSpacing: 1,
+            ),
+          ),
+          if(!enable)
+          Text(
+          'Está observando su útltima ubicacion registrada',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.rajdhani(
+            fontSize: 10,
+            color: Colors.white,
+            
+          ),
         ),
+        ],
       ),
       onPressed: () async {
         if (await locationProvider.checkStatusService()) {

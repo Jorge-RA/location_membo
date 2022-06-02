@@ -47,6 +47,7 @@ class _GridViewStreamState extends State<GridViewStream> with WidgetsBindingObse
         '''Latitud: ${locationProvider.latitude!.toStringAsFixed(7)}°\nLongitud: ${locationProvider.longitude!.toStringAsFixed(7)}°\nVelocidad: ${locationProvider.speed!.toStringAsFixed(4)} Km/h''', 
         notificationProvider.notificationDetails,
       );
+      
     }
   }
 
@@ -59,7 +60,11 @@ class _GridViewStreamState extends State<GridViewStream> with WidgetsBindingObse
       stream: locationProvider.enableService ? locationProvider.location.onLocationChanged : null,
       builder: (context, snapshot) {
         if (snapshot.hasData || snapshot.data == null) {//Siempre entrará
-          if(snapshot.hasData) locationProvider.getLocation(); //Traigo la nueva ubicacion siempre que el listen del Stream envíe un nuevo dato, esos datos los centralizo en mi Provider
+          if(snapshot.hasData) {
+            locationProvider.getLocation();//Traigo la nueva ubicacion siempre que el listen del Stream envíe un nuevo dato, esos datos los centralizo en mi Provider
+          }else{
+            locationProvider.getLatestLocation();//Traigo la ultima ubicación antes de que se cerrara la aplicación
+          }
           List<Widget> myObjects = [
             InfoBox(text: 'Latitud',value:'${locationProvider.latitude!.toStringAsFixed(7)}°'), //despues de haber seteado los nuevos datos, traigo los datos desde mi Provider
             InfoBox(text: 'Longitud',value: '${locationProvider.longitude!.toStringAsFixed(7)}°'),

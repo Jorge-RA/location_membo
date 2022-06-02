@@ -14,7 +14,8 @@ class _CustomSliderState extends State<CustomSlider> {
   double _value = 10;
   @override
   Widget build(BuildContext context) {
-    final locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    final locationProvider =
+        Provider.of<LocationProvider>(context, listen: false);
     return Column(
       children: [
         Text(
@@ -33,17 +34,13 @@ class _CustomSliderState extends State<CustomSlider> {
           activeColor: Colors.white,
           inactiveColor: const Color.fromARGB(255, 155, 94, 89),
           onChanged: (value) {
-            if(value < 10) value = 10;
+            if (value < 10) value = 10;
             _value = value;
             setState(() {});
           },
-          onChangeEnd: (value)async{
+          onChangeEnd: (value) async {
             locationProvider.reportFrecuency = _value.toInt();
-            
           },
-          
-
-          
         ),
       ],
     );

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:membo_test_app/providers/preferences.dart';
 import 'package:membo_test_app/providers/providers.dart';
 import 'package:membo_test_app/screens/screens.dart';
 import 'package:provider/provider.dart';
 
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Preferences.initPrefers();//Inicializo la instancia de mi SharedPreferences
   runApp(const AppState());
 }
 

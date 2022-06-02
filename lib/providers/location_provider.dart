@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:membo_test_app/providers/preferences.dart';
 
 class LocationProvider extends ChangeNotifier{
 
@@ -36,6 +37,11 @@ class LocationProvider extends ChangeNotifier{
         listernerStream = location.onLocationChanged.listen(
           (event) {
             print(event);//Permitirá ver por medio de sockects la localizacion y velocidad reportada por la app
+            Preferences.setLatestData({
+              'latitude': event.latitude,
+              'longitude': event.longitude,
+              'speed': event.speed,
+            });
           }
         );
     }else{
@@ -77,6 +83,14 @@ class LocationProvider extends ChangeNotifier{
     speed = _locationData.speed;
     //notifyListeners();
   }
+
+  void getLatestLocation(){
+    Map<String, double> myData = Preferences.getLatestData();
+    latitude = myData['latitude'];
+    longitude = myData['longitude'];
+    speed = myData['speed'];
+  }
+  
 
 
 }
